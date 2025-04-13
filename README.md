@@ -1,6 +1,7 @@
 # Virtual world
 
 World filled with self driving car for us to observe.
+I am learning so many things from Youtube, specially, coding with Radu.
 
 ## Features
 
@@ -19,5 +20,5 @@ World filled with self driving car for us to observe.
 ### Installation
 
 ```bash
-git clone https://github.com/joyanta-kumar/virtual-world.git
+git clone https://github.com/Joyanta-Kumar/virtual-world.git
 ```
