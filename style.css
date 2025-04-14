@@ -6,10 +6,27 @@ body {
 #floor {
   background-color: #2a6e49;
   width: 100%;
-  height: calc(100% - 1.8em);
+  height: calc(100% - 2em);
 }
 
 #controls {
   margin-inline: auto;
   width: fit-content;
+}
+
+input[type="button"] {
+  font-family: monospace;
+  background-color: #2a6e49;
+  color: white;
+  border: none;
+  font-weight: bold;
+  padding: 0.2em 1em;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 2px solid #2a6e49;
+}
+
+input[type="button"]:active {
+  background-color: white;
+  color: #2a6e49;
 }
