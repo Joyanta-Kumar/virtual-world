@@ -1,0 +1,30 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  overflow: hidden;
+}
+
+#floor {
+  background-color: darkslategray;
+}
+
+#controls {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+}
+
+input[type="button"] {
+  background-color: slategray;
+  color: white;
+  border: 1px solid;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+input[type="button"]:active {
+  background-color: white;
+  color: darkslategray;
+}
