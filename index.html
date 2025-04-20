@@ -1,28 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ritu's world: A place of no people</title>
-    <link rel="stylesheet" href="style.css" />
-    <script defer src="./javascript/primitive/point.js"></script>
-    <script defer src="./javascript/primitive/segment.js"></script>
-    <script defer src="./javascript/math/graph.js"></script>
-    <script defer src="./javascript/math/utils.js"></script>
-    <script defer src="main.js"></script>
-  </head>
 
-  <body>  
-    <canvas id="floor"></canvas>
-    <div id="controls">
-      <input type="button" value="Add Point" onclick="addRandomPoint()" />
-      <input type="button" value="Add Segment" onclick="addRandomSegment()" />
-      <input type="button" value="Remove Point" onclick="removeRandomPoint()" />
-      <input
-        type="button"
-        value="Remove Segment"
-        onclick="removeRandomSegment()"
-      />
-    </div>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rita's world: A place of no people</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="module" src="main.js"></script>
+</head>
+
+<body>
+  <canvas id="floor"></canvas>
+  <div id="controls">
+    <input type="button" value="Add Point" onclick="addRandomPoint()" />
+    <input type="button" value="Add Segment" onclick="addRandomSegment()" />
+    <input type="button" value="Remove Point" onclick="removeRandomPoint()" />
+    <input type="button" value="Remove Segment" onclick="removeRandomSegment()" />
+  </div>
+
+  <script>
+    // Setup the drawing area on the screen.
+    const canvas = document.getElementById("floor");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const ctx = canvas.getContext("2d");
+  </script>
+</body>
+
 </html>

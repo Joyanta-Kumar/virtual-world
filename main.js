@@ -1,60 +1,33 @@
-const floor = document.getElementById("floor");
-const ctx = floor.getContext("2d");
+import { Point } from "./javascript/primitive/point.js";
+import { Segment } from "./javascript/primitive/segment.js";
+import { Graph } from "./javascript/math/graph.js";
+import { GraphEditor } from "./javascript/math/graph-editor.js";
 
-floor.width = floor.clientWidth;
-floor.height = floor.clientHeight;
+// Test functions
+function addRandomPoint() { console.log("Added point") }
+function addRandomSegment() { console.log("Added segment") }
+function removeRandomPoint() { console.log("Removed point") }
+function removeRandomSegment() { console.log("Removed segment") }
+window.addRandomPoint = addRandomPoint;
+window.addRandomSegment = addRandomSegment;
+window.removeRandomPoint = removeRandomPoint;
+window.removeRandomSegment = removeRandomSegment;
 
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
 
+// Test constants
 const p1 = new Point(100, 100);
-const p2 = new Point(200, 300);
-const p3 = new Point(500, 250);
-
+const p2 = new Point(300, 300);
 const s1 = new Segment(p1, p2);
-const s2 = new Segment(p2, p3);
 
+const graph = new Graph([p1, p2], [s1]);
+const graphEditor = new GraphEditor(canvas, graph);
 
-const graph = new Graph([p1, p2, p3], [s1, s2]);
-
+graphEditor.display();
 animate();
 
 // Functions
-function resizeCanvas() {
-  floor.width = floor.clientWidth;
-  floor.height = floor.clientHeight;
-}
-
-function addRandomPoint() {
-  const x = Math.random() * floor.width;
-  const y = Math.random() * floor.height;
-  graph.tryAddPoint(new Point(x, y));
-}
-
-function addRandomSegment() {
-  const index1 = Math.floor(Math.random() * graph.points.length);
-  const index2 = Math.floor(Math.random() * graph.points.length);
-  if (index1 === index2) return;
-  const segment = new Segment(graph.points[index1], graph.points[index2]);
-  graph.tryAddSegment(segment);
-}
-
-function removeRandomPoint() {
-  if (graph.points.length === 0) return;
-  const index = Math.floor(Math.random() * graph.points.length);
-  const point = graph.points[index];
-  graph.removePoint(point);
-}
-
-function removeRandomSegment() {
-  if (graph.segments.length === 0) return;
-  const index = Math.floor(Math.random() * graph.segments.length);
-  const segment = graph.segments[index];
-  graph.removeSegment(segment);
-}
-
 function animate() {
-  ctx.clearRect(0, 0, floor.width, floor.height);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   graph.draw(ctx);
   requestAnimationFrame(animate);
 }

@@ -1,22 +1,23 @@
-class Segment {
-	constructor(start, end) {
-		this.start = start;
-		this.end = end;
-	}
-	draw(ctx, { width = 2, color = "white" } = {}) {
-		ctx.strokeStyle = color;
-		ctx.lineWidth = width;
-		ctx.beginPath();
-		ctx.moveTo(this.start.x, this.start.y);
-		ctx.lineTo(this.end.x, this.end.y);
-		ctx.stroke();
-	}
+export class Segment {
+  constructor(start, end) {
+    // Choosing the closest point to Y axis as start.
+    // Not necessary. But it might help later.
+    if (start.x <= end.x) {
+      this.start = start;
+      this.end = end;
+    }
+    else {
+      this.start = end;
+      this.end = start;
+    }
+  }
 
-	contains(point) {
-		return this.start.equals(point) || this.end.equals(point);
-	}
-
-	equals(other) {
-		return this.contains(other.start) && this.contains(other.end);
-	}
+  draw(ctx, color = "white", width = 2) {
+    ctx.beginPath();
+    ctx.moveTo(this.start.x, this.start.y);
+    ctx.lineTo(this.end.x, this.end.y);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = width;
+    ctx.stroke();
+  }
 }
