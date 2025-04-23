@@ -4,7 +4,7 @@ export class Point {
     this.y = y;
   }
 
-  draw(ctx, color = "white", radius = 10) {
+  draw(ctx, radius = 10, color = "white") {
     ctx.beginPath();
     ctx.arc(this.x, this.y, radius, 0, Math.PI * 2);
     ctx.fillStyle = color;
