@@ -1,13 +1,21 @@
+:root {
+  --crust: #17313E;
+  --dark: #415E72;
+  --accent: #C5B0CD;
+  --light: #F3E2D4;
+}
+
 body {
   height: 100vh;
   margin: 0;
   overflow: hidden;
+  background-color: var(--dark);
 }
 
 #canvas {
-  background-color: #2a6e49;
-  width: 100%;
-  height: 100%;
+  background-color: var(--crust);
+  /* width: 100%;
+  height: 100%; */
 }
 
 #controls {
@@ -19,18 +27,22 @@ body {
 input[type="button"] {
   background-color: transparent;
   border: none;
-  color: white;
-  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--crust);
+  background-color: var(--dark);
   font-family: Hurmit Nerd Font, sans-serif;
-  border: 4px solid rgba(255, 255, 255, 0.3);
   cursor: pointer;
+  font-size: 18px;
+  aspect-ratio: 1;
+  padding: 8px;
+  border-radius: 4px;
 }
 
-input[type="button"]:active {
-  background-color: white;
-  color: #2a6e49;
+input[type="button"]:hover:active {
+  background-color: var(--light);
+  color: var(--crust);
 }
 
 input[type="button"]:hover {
-  border-color: rgba(255, 255, 255, 0.5);
+  background-color: var(--crust);
+  color: var(--light);
 }
