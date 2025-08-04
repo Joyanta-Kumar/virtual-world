@@ -24,3 +24,8 @@ I am learning so many things from Youtube, specially, coding with Radu.
 ```bash
 git clone https://github.com/Joyanta-Kumar/virtual-world.git
 ```
+
+### Execute
+```bash
+python -m http.server 8000
+```
