@@ -4,18 +4,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="res/icon.png" type="image/x-icon">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="shortcut icon" href="./res/icon.png" type="image/x-icon">
+  <link rel="stylesheet" href="./css/style.css">
   <title>Kumandra: A virtual world.</title>
-  <script type="module" src="javascript/main.js"></script>
+  <script type="module" src="./javascript/main.js"></script>
 </head>
 
 <body>
   <div id="controls">
-    <input type="button" value="a." onclick="addRandomNode()">
-    <input type="button" value="r." onclick="removeRandomNode()">
-    <input type="button" value="a-" onclick="addRandomEdge()">
-    <input type="button" value="r-" onclick="removeRandomEdge()">
+    <input type="button" value="a." title="Add random node" onclick="addRandomNode()">
+    <input type="button" value="r." title="Remove random node" onclick="removeRandomNode()">
+    <input type="button" value="a-" title="Add random edge" onclick="addRandomEdge()">
+    <input type="button" value="r-" title="Remove random edge" onclick="removeRandomEdge()">
   </div>
   <canvas id="canvas"></canvas>
 </body>
