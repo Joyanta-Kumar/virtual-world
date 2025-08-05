@@ -3,6 +3,7 @@ import { Edge } from "./primitives/edge.js";
 import { Graph } from "./math/graph.js";
 // import { GraphEditor } from "./math/graphEditor.js";
 
+const status = document.getElementById("status");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const graph = new Graph([],[]);
@@ -56,6 +57,7 @@ window.removeRandomEdge = removeRandomEdge;
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   graph.draw(ctx);
+  status.textContent = `${graph.nodes.length} ${graph.edges.length}`
   requestAnimationFrame(animate)
 }
 
