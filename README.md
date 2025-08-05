@@ -27,5 +27,10 @@ git clone https://github.com/Joyanta-Kumar/virtual-world.git
 
 ### Execute
 ```bash
+npm start
+```
+or
+```bash
 python -m http.server 8000
 ```
+
