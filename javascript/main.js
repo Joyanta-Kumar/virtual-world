@@ -1,13 +1,13 @@
 import { Node } from "./primitives/node.js";
 import { Edge } from "./primitives/edge.js";
 import { Graph } from "./math/graph.js";
-// import { GraphEditor } from "./math/graphEditor.js";
+import { GraphEditor } from "./math/graphEditor.js";
 
 const status = document.getElementById("status");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const graph = new Graph([],[]);
-// const graphEditor = new GraphEditor(graph, canvas);
+const graphEditor = new GraphEditor(graph, canvas);
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -15,32 +15,32 @@ canvas.height = window.innerHeight;
 
 // Initial testing and building base.
 function addRandomNode() {
-  graph.tryAddNode(new Node(
+  graphEditor.tryAddNode(new Node(
     Math.floor(Math.random() * canvas.width),
     Math.floor(Math.random() * canvas.height)
   ));
 }
 
 function addRandomEdge() {
-  const startIndex = Math.floor(Math.random() * graph.nodes.length);
-  const endIndex = Math.floor(Math.random() * graph.nodes.length);
+  const startIndex = Math.floor(Math.random() * graphEditor.graph.nodes.length);
+  const endIndex = Math.floor(Math.random() * graphEditor.graph.nodes.length);
   if (startIndex == endIndex) {
     return;
   }
-  graph.tryAddEdge(new Edge(
-    graph.nodes[startIndex],
-    graph.nodes[endIndex]
+  graphEditor.tryAddEdge(new Edge(
+    graphEditor.graph.nodes[startIndex],
+    graphEditor.graph.nodes[endIndex]
   ));
 }
 
 function removeRandomNode() {
-  const index = Math.floor(Math.random() * graph.nodes.length);
-  graph.removeNode(index);
+  const index = Math.floor(Math.random() * graphEditor.graph.nodes.length);
+  graphEditor.removeNode(index);
 }
 
 function removeRandomEdge() {
-  const index = Math.floor(Math.random() * graph.edges.length);
-  graph.removeEdge(index);
+  const index = Math.floor(Math.random() * graphEditor.graph.edges.length);
+  graphEditor.removeEdge(index);
 }
 
 
@@ -57,7 +57,7 @@ window.removeRandomEdge = removeRandomEdge;
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   graph.draw(ctx);
-  status.textContent = `${graph.nodes.length} ${graph.edges.length}`
+  status.textContent = `${graphEditor.graph.nodes.length} ${graphEditor.graph.edges.length}`
   requestAnimationFrame(animate)
 }
 
