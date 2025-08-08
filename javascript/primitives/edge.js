@@ -4,7 +4,7 @@ export class Edge {
     this.end = end;
   }
 
-  draw(ctx, width=2, color="#C5B0CD") {
+  draw(ctx, { width=2, color="#C5B0CD" } = {}) {
     ctx.beginPath();
     ctx.moveTo(this.start.x, this.start.y);
     ctx.lineTo(this.end.x, this.end.y);

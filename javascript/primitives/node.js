@@ -4,7 +4,7 @@ export class Node {
     this.y = y;
   }
 
-  draw(ctx, radius=10, color="#F3E2D4") {
+  draw(ctx, { radius=10, color="#F3E2D4" } = {}) {
     ctx.beginPath();
     ctx.arc(this.x, this.y, radius, 0, Math.PI*2);
     ctx.fillStyle = color;
