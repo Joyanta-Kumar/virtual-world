@@ -11,33 +11,60 @@ export class GraphEditor {
     this.selected = null;
     this.hovered = null;
     this.mouse = null;
+
     
     this.#addEventListeners();
   }
 
   #addEventListeners() {
-    this.canvas.addEventListener("mousedown", (event) => {
-      this.hovered = getNearestNode(this.mouse, this.graph.nodes, 10);
-      if (this.hovered != null) {
-        this.selected = this.hovered;
-        return;
-      }
-      this.addNode(this.mouse);
-      this.selected = this.mouse;
-    });
+
     this.canvas.addEventListener("mousemove", (event) => {
       this.mouse = new Node(event.offsetX, event.offsetY);
-      this.hovered = getNearestNode(this.mouse, this.graph.nodes, 10);
+      this.hovered = getNearestNode(this.mouse, this.graph.nodes, 20);
+    });
+
+    this.canvas.addEventListener("mousedown", (event) => {
+      if (event.button == 0) {
+        // left click -> select or add
+        if (this.hovered != null) {
+          // select
+          this.selected = this.hovered;
+        }
+        else if (this.mouse != null) {
+          // add
+          this.addNode(this.mouse);
+        }
+      }
+      else if (event.button == 2) {
+        // right click -> deselect or remove
+        if (this.hovered != null) {
+          this.tryRemoveNode(this.hovered);
+          if (this.selected != null && this.selected.equals(this.hovered)) {
+            this.selected = null;
+          }
+          this.hovered = null;
+          // remove
+        }
+        else {
+          this.selected = null;
+          // deselect 
+        }
+      }
+    });
+
+    this.canvas.addEventListener("contextmenu", (event) => {
+      event.preventDefault();
     });
   }
 
   display() {
     this.graph.draw(this.ctx);
-    if (this.selected != null) {
-      this.selected.draw(this.ctx, { radius: 7, color: "#17313E" });
-    }
+    const color = "#17313E";
     if (this.hovered != null) {
-      this.hovered.draw(this.ctx, { radius: 7, color: "#415E72" });
+      this.hovered.draw(this.ctx, { radius:7, color:color })
+    }
+    if (this.selected != null) {
+      this.selected.draw(this.ctx, { radius:5, color:color })
     }
   }
 
