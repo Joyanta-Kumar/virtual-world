@@ -29,8 +29,13 @@ export class GraphEditor {
       // Left click
       if (event.button == 0) {
         if (this.hovered) {
-          console.log("Selected", this.hovered);
           this.selected = this.hovered;
+          console.log("Selected", this.selected);
+        }
+        else {
+          this.addNode(mouse);
+          this.selected = mouse;
+          this.hovered = mouse;
         }
       }
 
@@ -44,6 +49,7 @@ export class GraphEditor {
           this.hovered = null;
         }
         else {
+          console.log("Deselected node", this.selected);
           this.selected = null;
         }
       }
@@ -106,8 +112,8 @@ export class GraphEditor {
     for (const edge of connections) {
       this.removeEdge(this.graph.edges.findIndex(e => edge.equals(e)));
     }
-    this.graph.nodes.splice(index, 1);
     console.log("Removed node", this.graph.nodes[index]);
+    this.graph.nodes.splice(index, 1);
   }
 
   tryRemoveNode(node) {
@@ -119,8 +125,8 @@ export class GraphEditor {
   }
 
   removeEdge(index) {
-    this.graph.edges.splice(index, 1);
     console.log("Removed edge", this.graph.edges[index]);
+    this.graph.edges.splice(index, 1);
   }
 
   tryRemoveEdge(edge) {
