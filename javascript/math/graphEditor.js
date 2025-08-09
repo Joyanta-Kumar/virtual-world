@@ -10,46 +10,46 @@ export class GraphEditor {
     
     this.selected = null;
     this.hovered = null;
-    this.mouse = null;
+    this.dragging = false;
 
     
     this.#addEventListeners();
   }
 
   #addEventListeners() {
-
     this.canvas.addEventListener("mousemove", (event) => {
-      this.mouse = new Node(event.offsetX, event.offsetY);
-      this.hovered = getNearestNode(this.mouse, this.graph.nodes, 20);
+      const mouse = new Node(event.offsetX, event.offsetY);
+      this.hovered = getNearestNode(mouse, this.graph.nodes, 20);
     });
 
     this.canvas.addEventListener("mousedown", (event) => {
+      const mouse = new Node(event.offsetX, event.offsetY);
+      this.hovered = getNearestNode(mouse, this.graph.nodes, 20);
+
+      // Left click
       if (event.button == 0) {
-        // left click -> select or add
-        if (this.hovered != null) {
-          // select
+        if (this.hovered) {
+          console.log("Selected", this.hovered);
           this.selected = this.hovered;
         }
-        else if (this.mouse != null) {
-          // add
-          this.addNode(this.mouse);
-        }
       }
+
+      // Right click
       else if (event.button == 2) {
-        // right click -> deselect or remove
-        if (this.hovered != null) {
+        if (this.hovered) {
           this.tryRemoveNode(this.hovered);
-          if (this.selected != null && this.selected.equals(this.hovered)) {
+          if (this.hovered == this.selected) {
             this.selected = null;
           }
           this.hovered = null;
-          // remove
         }
         else {
           this.selected = null;
-          // deselect 
         }
       }
+    });
+    this.canvas.addEventListener("mouseup", () => {
+      this.dragging = false;
     });
 
     this.canvas.addEventListener("contextmenu", (event) => {
@@ -59,7 +59,10 @@ export class GraphEditor {
 
   display() {
     this.graph.draw(this.ctx);
-    const color = "#17313E";
+    const color = "#415E72";
+    if (this.predictedEdge) {
+      this.predictedEdge.draw(this.ctx, { width: 1, color: color });
+    }
     if (this.hovered != null) {
       this.hovered.draw(this.ctx, { radius:7, color:color })
     }
@@ -78,10 +81,12 @@ export class GraphEditor {
 
   addNode(node) {
     this.graph.nodes.push(node);
+    console.log("Added node", node);
   }
 
   addEdge(edge) {
     this.graph.edges.push(edge);
+    console.log("Added edge", edge);
   }
 
   tryAddNode(node) {
@@ -102,6 +107,7 @@ export class GraphEditor {
       this.removeEdge(this.graph.edges.findIndex(e => edge.equals(e)));
     }
     this.graph.nodes.splice(index, 1);
+    console.log("Removed node", this.graph.nodes[index]);
   }
 
   tryRemoveNode(node) {
@@ -114,6 +120,7 @@ export class GraphEditor {
 
   removeEdge(index) {
     this.graph.edges.splice(index, 1);
+    console.log("Removed edge", this.graph.edges[index]);
   }
 
   tryRemoveEdge(edge) {
@@ -127,6 +134,7 @@ export class GraphEditor {
   removeAll() {
     this.graph.nodes.length = 0;
     this.graph.edges.length = 0;
+    console.log("Cleared the graph")
   }
 
   getConnections(node) {
