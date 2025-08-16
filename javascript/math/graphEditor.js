@@ -19,7 +19,13 @@ export class GraphEditor {
   #addEventListeners() {
     this.canvas.addEventListener("mousemove", (event) => {
       const mouse = new Node(event.offsetX, event.offsetY);
-      this.hovered = getNearestNode(mouse, this.graph.nodes, 20);
+      if (this.dragging) {
+        this.hovered.x = event.offsetX;
+        this.hovered.y = event.offsetY;
+      }
+      else {
+        this.hovered = getNearestNode(mouse, this.graph.nodes, 20);
+      }
     });
 
     this.canvas.addEventListener("mousedown", (event) => {
@@ -29,8 +35,13 @@ export class GraphEditor {
       // Left click
       if (event.button == 0) {
         if (this.hovered) {
-          this.selected = this.hovered;
-          console.log("Selected", this.selected);
+          if (event.shiftKey) {
+            this.dragging = true;
+          }
+          else {
+            this.selected = this.hovered;
+            console.log("Selected", this.selected);
+          }
         }
         else {
           this.addNode(mouse);
