@@ -39,11 +39,17 @@ export class GraphEditor {
             this.dragging = true;
           }
           else {
+            if (this.selected) {
+              this.tryAddEdge(new Edge(this.selected, this.hovered));
+            }
             this.selected = this.hovered;
             console.log("Selected", this.selected);
           }
         }
         else {
+          if (this.selected) {
+            this.tryAddEdge(new Edge(this.selected, mouse));
+          }
           this.addNode(mouse);
           this.selected = mouse;
           this.hovered = mouse;
@@ -102,8 +108,10 @@ export class GraphEditor {
   }
 
   addEdge(edge) {
-    this.graph.edges.push(edge);
-    console.log("Added edge", edge);
+    if (!edge.end.equals(edge.start)) {
+      this.graph.edges.push(edge);
+      console.log("Added edge", edge);
+    }
   }
 
   tryAddNode(node) {

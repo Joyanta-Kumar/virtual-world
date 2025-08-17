@@ -12,6 +12,7 @@ const e1 = new Edge(n1, n2);
 const e2 = new Edge(n2, n3);
 const e3 = new Edge(n3, n4);
 
+const status = document.getElementById("status");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const graph = new Graph([n1,n2,n3,n4],[e1,e2,e3]);
@@ -65,6 +66,7 @@ window.removeRandomEdge = removeRandomEdge;
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   graphEditor.display();
+  status.textContent = `${graph.nodes.length} ${graph.edges.length}`
   requestAnimationFrame(animate);
 }
 
