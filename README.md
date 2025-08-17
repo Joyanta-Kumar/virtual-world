@@ -32,5 +32,5 @@ npm start
 
 #### Usage
 - Left click to select or add node.
+- Drag with left click to move.
 - Right click to deselect or remove node.
-- Shift left click and drag to move node.

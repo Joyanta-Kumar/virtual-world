@@ -8,6 +8,7 @@ export class GraphEditor {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
     
+    this.mouse;
     this.selected = null;
     this.hovered = null;
     this.dragging = false;
@@ -18,41 +19,37 @@ export class GraphEditor {
 
   #addEventListeners() {
     this.canvas.addEventListener("mousemove", (event) => {
-      const mouse = new Node(event.offsetX, event.offsetY);
+      this.mouse = new Node(event.offsetX, event.offsetY);
       if (this.dragging) {
         this.hovered.x = event.offsetX;
         this.hovered.y = event.offsetY;
       }
       else {
-        this.hovered = getNearestNode(mouse, this.graph.nodes, 20);
+        this.hovered = getNearestNode(this.mouse, this.graph.nodes, 20);
       }
     });
 
     this.canvas.addEventListener("mousedown", (event) => {
-      const mouse = new Node(event.offsetX, event.offsetY);
-      this.hovered = getNearestNode(mouse, this.graph.nodes, 20);
+      this.mouse = new Node(event.offsetX, event.offsetY);
+      this.hovered = getNearestNode(this.mouse, this.graph.nodes, 20);
 
       // Left click
       if (event.button == 0) {
         if (this.hovered) {
-          if (event.shiftKey) {
-            this.dragging = true;
+          this.dragging = true;
+          if (this.selected) {
+            this.tryAddEdge(new Edge(this.selected, this.hovered));
           }
-          else {
-            if (this.selected) {
-              this.tryAddEdge(new Edge(this.selected, this.hovered));
-            }
-            this.selected = this.hovered;
-            console.log("Selected", this.selected);
-          }
+          this.selected = this.hovered;
+          console.log("Selected", this.selected);
         }
         else {
           if (this.selected) {
-            this.tryAddEdge(new Edge(this.selected, mouse));
+            this.tryAddEdge(new Edge(this.selected, this.mouse));
           }
-          this.addNode(mouse);
-          this.selected = mouse;
-          this.hovered = mouse;
+          this.addNode(this.mouse);
+          this.selected = this.mouse;
+          this.hovered = this.mouse;
         }
       }
 
@@ -83,13 +80,12 @@ export class GraphEditor {
   display() {
     this.graph.draw(this.ctx);
     const color = "#415E72";
-    if (this.predictedEdge) {
-      this.predictedEdge.draw(this.ctx, { width: 1, color: color });
-    }
-    if (this.hovered != null) {
+    if (this.hovered) {
       this.hovered.draw(this.ctx, { radius:7, color:color })
     }
-    if (this.selected != null) {
+    if (this.selected) {
+      const predictedEdge = new Edge(this.selected, (this.hovered) ? this.hovered : this.mouse);
+      predictedEdge.draw(this.ctx, { width:2, color:color, dash:[4,4] });
       this.selected.draw(this.ctx, { radius:5, color:color })
     }
   }
