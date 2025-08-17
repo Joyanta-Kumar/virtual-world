@@ -1,6 +1,7 @@
-import { Node } from "../primitives/node.js";
-import { Edge } from "../primitives/edge.js";
-import { getNearestNode } from "./utils.js";
+import { Node } from "./primitives/node.js";
+import { Edge } from "./primitives/edge.js";
+import { getNearestNode } from "./math/utils.js";
+import { Viewport } from "./viewport.js";
 
 export class GraphEditor {
   constructor(graph, canvas) {
@@ -25,13 +26,13 @@ export class GraphEditor {
   }
 
   #handleMouseMove(event) {
-    this.mouse = new Node(event.offsetX, event.offsetY);
+    this.mouse = window.viewport.getMouse(event);
     if (this.dragging) {
-      this.hovered.x = event.offsetX;
-      this.hovered.y = event.offsetY;
+      this.hovered.x = this.mouse.x;
+      this.hovered.y = this.mouse.y;
     }
     else {
-      this.hovered = getNearestNode(this.mouse, this.graph.nodes, 20);
+      this.hovered = getNearestNode(this.mouse, this.graph.nodes, 20*window.viewport.zoom);
     }
   }
 

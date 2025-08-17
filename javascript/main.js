@@ -1,7 +1,8 @@
 import { Node } from "./primitives/node.js";
 import { Edge } from "./primitives/edge.js";
-import { Graph } from "./math/graph.js";
-import { GraphEditor } from "./math/graphEditor.js";
+import { Graph } from "./graph.js";
+import { GraphEditor } from "./graphEditor.js";
+import { Viewport } from "./viewport.js";
 
 
 const status = document.getElementById("status");
@@ -9,6 +10,7 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const graph = new Graph([],[]);
 const graphEditor = new GraphEditor(graph, canvas);
+const viewport = new Viewport(canvas);
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -52,12 +54,16 @@ window.addRandomNode = addRandomNode;
 window.addRandomEdge = addRandomEdge;
 window.removeRandomNode = removeRandomNode;
 window.removeRandomEdge = removeRandomEdge;
+window.viewport = viewport;
 
 
 // This function is useful, both now and later.
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.save();
+  ctx.scale(1/viewport.zoom, 1/viewport.zoom);
   graphEditor.display();
+  ctx.restore();
   status.textContent = `${graph.nodes.length} ${graph.edges.length}`
   requestAnimationFrame(animate);
 }
