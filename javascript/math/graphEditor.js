@@ -55,16 +55,16 @@ export class GraphEditor {
 
       // Right click
       else if (event.button == 2) {
-        if (this.hovered) {
+        if (this.selected) {
+          console.log("Deselected node", this.selected);
+          this.selected = null;
+        }
+        else if (this.hovered) {
           this.tryRemoveNode(this.hovered);
           if (this.hovered == this.selected) {
             this.selected = null;
           }
           this.hovered = null;
-        }
-        else {
-          console.log("Deselected node", this.selected);
-          this.selected = null;
         }
       }
     });
