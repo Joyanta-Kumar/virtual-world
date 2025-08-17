@@ -29,3 +29,8 @@ git clone https://github.com/Joyanta-Kumar/virtual-world.git
 ```bash
 npm start
 ```
+
+#### Usage
+- Left click to select or add node.
+- Right click to deselect or remove node.
+- Shift left click and drag to move node.

@@ -108,10 +108,8 @@ export class GraphEditor {
   }
 
   addEdge(edge) {
-    if (!edge.end.equals(edge.start)) {
-      this.graph.edges.push(edge);
-      console.log("Added edge", edge);
-    }
+    this.graph.edges.push(edge);
+    console.log("Added edge", edge);
   }
 
   tryAddNode(node) {
@@ -121,7 +119,7 @@ export class GraphEditor {
   }
 
   tryAddEdge(edge) {
-    if (this.containsEdge(edge) == undefined) {
+    if (this.containsEdge(edge) == undefined && !edge.end.equals(edge.start)) {
       this.addEdge(edge);
     }
   }
