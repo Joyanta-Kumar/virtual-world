@@ -7,86 +7,92 @@ export class GraphEditor {
     this.graph = graph;
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
-    
+
     this.mouse;
     this.selected = null;
     this.hovered = null;
     this.dragging = false;
 
-    
+
     this.#addEventListeners();
   }
 
   #addEventListeners() {
-    this.canvas.addEventListener("mousemove", (event) => {
-      this.mouse = new Node(event.offsetX, event.offsetY);
-      if (this.dragging) {
-        this.hovered.x = event.offsetX;
-        this.hovered.y = event.offsetY;
+    this.canvas.addEventListener("mousemove", this.#handleMouseMove.bind(this));
+    this.canvas.addEventListener("mousedown", this.#handleMouseDown.bind(this));
+    this.canvas.addEventListener("mouseup", this.#handleMouseUp.bind(this));
+    this.canvas.addEventListener("contextmenu", this.#handleContextMenu);
+  }
+
+  #handleMouseMove(event) {
+    this.mouse = new Node(event.offsetX, event.offsetY);
+    if (this.dragging) {
+      this.hovered.x = event.offsetX;
+      this.hovered.y = event.offsetY;
+    }
+    else {
+      this.hovered = getNearestNode(this.mouse, this.graph.nodes, 20);
+    }
+  }
+
+  #handleMouseDown(event) {
+    // this.mouse = new Node(event.offsetX, event.offsetY); // seems unnecessary.
+    this.hovered = getNearestNode(this.mouse, this.graph.nodes, 20);
+
+    // Left click
+    if (event.button == 0) {
+      if (this.hovered) {
+        this.dragging = true;
+        if (this.selected) {
+          this.tryAddEdge(new Edge(this.selected, this.hovered));
+        }
+        this.selected = this.hovered;
+        console.log("Selected", this.selected);
       }
       else {
-        this.hovered = getNearestNode(this.mouse, this.graph.nodes, 20);
-      }
-    });
-
-    this.canvas.addEventListener("mousedown", (event) => {
-      this.mouse = new Node(event.offsetX, event.offsetY);
-      this.hovered = getNearestNode(this.mouse, this.graph.nodes, 20);
-
-      // Left click
-      if (event.button == 0) {
-        if (this.hovered) {
-          this.dragging = true;
-          if (this.selected) {
-            this.tryAddEdge(new Edge(this.selected, this.hovered));
-          }
-          this.selected = this.hovered;
-          console.log("Selected", this.selected);
-        }
-        else {
-          if (this.selected) {
-            this.tryAddEdge(new Edge(this.selected, this.mouse));
-          }
-          this.addNode(this.mouse);
-          this.selected = this.mouse;
-          this.hovered = this.mouse;
-        }
-      }
-
-      // Right click
-      else if (event.button == 2) {
         if (this.selected) {
-          console.log("Deselected node", this.selected);
+          this.tryAddEdge(new Edge(this.selected, this.mouse));
+        }
+        this.addNode(this.mouse);
+        this.selected = this.mouse;
+        this.hovered = this.mouse;
+      }
+    }
+
+    // Right click
+    else if (event.button == 2) {
+      if (this.selected) {
+        console.log("Deselected node", this.selected);
+        this.selected = null;
+      }
+      else if (this.hovered) {
+        this.tryRemoveNode(this.hovered);
+        if (this.hovered == this.selected) {
           this.selected = null;
         }
-        else if (this.hovered) {
-          this.tryRemoveNode(this.hovered);
-          if (this.hovered == this.selected) {
-            this.selected = null;
-          }
-          this.hovered = null;
-        }
+        this.hovered = null;
       }
-    });
-    this.canvas.addEventListener("mouseup", () => {
-      this.dragging = false;
-    });
-
-    this.canvas.addEventListener("contextmenu", (event) => {
-      event.preventDefault();
-    });
+    }
   }
+
+  #handleMouseUp() {
+    this.dragging = false;
+  }
+  #handleContextMenu(event) {
+    event.preventDefault();
+  }
+
 
   display() {
     this.graph.draw(this.ctx);
     const color = "#415E72";
     if (this.hovered) {
-      this.hovered.draw(this.ctx, { radius:7, color:color })
+      this.hovered.draw(this.ctx, { radius: 7, color: color })
     }
     if (this.selected) {
       const predictedEdge = new Edge(this.selected, (this.hovered) ? this.hovered : this.mouse);
-      predictedEdge.draw(this.ctx, { width:2, color:color, dash:[4,4] });
-      this.selected.draw(this.ctx, { radius:5, color:color })
+      predictedEdge.draw(this.ctx, { width: 2, color: color, dash: [4, 4] });
+      this.selected.draw(this.ctx, { radius: 5, color: color })
     }
   }
 
