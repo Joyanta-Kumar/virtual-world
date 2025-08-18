@@ -27,6 +27,15 @@ export class GraphEditor {
 
   #handleMouseMove(event) {
     this.mouse = window.viewport.getMouse(event);
+    if (event.shiftKey && this.selected) {
+      if (Math.abs(this.selected.x - this.mouse.x) > Math.abs(this.selected.y - this.mouse.y)) {
+        this.mouse.y = this.selected.y;
+      }
+      else {
+        this.mouse.x = this.selected.x;
+      }
+    }
+
     if (this.dragging) {
       this.hovered.x = this.mouse.x;
       this.hovered.y = this.mouse.y;

@@ -1,3 +1,5 @@
+import { Node } from "../primitives/node.js";
+
 function getDistance(start, end) {
   return Math.hypot(start.x - end.x, start.y - end.y);
 }
@@ -13,4 +15,16 @@ export function getNearestNode(pos, nodes, threshold=Number.MAX_SAFE_INTEGER) {
     }
   }
   return nearestNode;
+}
+
+export function subtract(start, end) {
+  return new Node(end.x - start.x, end.y - start.y);
+}
+
+export function add(start, end) {
+  return new Node(end.x + start.x, end.y + start.y);
+}
+
+export function multiply(vector, scalar) {
+  return new Node(vector.x * scalar, vector.y * scalar);
 }

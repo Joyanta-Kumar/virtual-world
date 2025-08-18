@@ -62,9 +62,10 @@ function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.save();
   ctx.scale(1/viewport.zoom, 1/viewport.zoom);
+  ctx.translate(viewport.offset.x, viewport.offset.y);
   graphEditor.display();
   ctx.restore();
-  status.textContent = `${graph.nodes.length} ${graph.edges.length}`
+  status.textContent = `${graph.nodes.length} ${graph.edges.length} ${Math.round(1/viewport.zoom*100)}%`
   requestAnimationFrame(animate);
 }
 

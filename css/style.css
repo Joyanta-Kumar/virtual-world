@@ -37,10 +37,6 @@ body {
   border-radius: 4px;
 }
 
-#status::before {
-  content: "Count: ";
-}
-
 input[type="button"] {
   background-color: transparent;
   border: none;
